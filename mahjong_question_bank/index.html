@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>麻将策略题库管理系统</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-tiles"></i> 麻将策略题库管理系统</h1>
+            <p class="subtitle">提升麻将技巧，挑战各类难题</p>
+        </header>
+
+        <main class="main-content">
+            <div class="control-panel">
+                <div class="control-header">
+                    <div class="control-title">
+                        <i class="fas fa-sliders-h"></i> 题目控制
+                    </div>
+                    <div class="type-info">
+                        <span class="current-type">当前类型：全部题目</span>
+                        <span class="question-count">题目：<span id="current-index">1</span>/<span id="total-questions">0</span></span>
+                    </div>
+                </div>
+                
+                <div class="control-buttons">
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-type="all" title="全部题目">
+                            <i class="fas fa-layer-group"></i> 全部
+                        </button>
+                        <button class="filter-btn" data-type="听牌判断" title="听牌判断">
+                            <i class="fas fa-brain"></i> 听牌
+                        </button>
+                        <button class="filter-btn" data-type="和牌选择" title="和牌选择">
+                            <i class="fas fa-check-circle"></i> 和牌
+                        </button>
+                        <button class="filter-btn" data-type="防守策略" title="防守策略">
+                            <i class="fas fa-shield-alt"></i> 防守
+                        </button>
+                        <button class="filter-btn random-btn" title="随机抽题">
+                            <i class="fas fa-random"></i> 随机
+                        </button>
+                    </div>
+                    
+                    <div class="nav-buttons">
+                        <button class="nav-btn prev-btn" id="prev-btn" title="上一题">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="nav-btn next-btn" id="next-btn" title="下一题">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-question-circle"></i> 题目展示</h2>
+                    <a href="#" class="original-link" id="original-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> 查看原始链接
+                    </a>
+                </div>
+                
+                <div class="question-display">
+                    <div class="question-image-container">
+                        <div class="image-placeholder" id="question-image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>题目图片加载中...</p>
+                        </div>
+                        <img src="" alt="题目图片" class="question-image" id="question-image">
+                    </div>
+                    
+                    <div class="question-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-tag"></i>
+                            <strong>题目类型：</strong>
+                            <span id="question-type">听牌判断</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-link"></i>
+                            <strong>原始链接：</strong>
+                            <a href="#" id="question-url" target="_blank">点击查看</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="answer-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-lightbulb"></i> 答案与解析</h2>
+                    <button class="toggle-answer-btn" id="toggle-answer">
+                        <i class="fas fa-eye"></i> 显示答案
+                    </button>
+                </div>
+                
+                <div class="answer-content hidden" id="answer-content">
+                    <div class="answer-image-container">
+                        <div class="image-placeholder" id="answer-image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>答案图片加载中...</p>
+                        </div>
+                        <img src="" alt="答案图片" class="answer-image" id="answer-image">
+                    </div>
+                    
+                    <div class="analysis-container">
+                        <h3><i class="fas fa-analytics"></i> 题目解析</h3>
+                        <div class="analysis-content" id="question-analyse">
+                            点击"显示答案"按钮查看题目解析...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>麻将策略题库管理系统 &copy; 2025 | 设计用于麻将技巧训练与学习</p>
+            <p class="footer-tips">
+                <i class="fas fa-lightbulb"></i> 提示：先独立思考，再查看答案，效果更佳！
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

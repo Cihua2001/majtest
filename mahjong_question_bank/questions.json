@@ -1,0 +1,58 @@
+[
+  {
+    "question_pic": "pic/questions/test1.jpeg",
+    "question_type": "听牌判断",
+    "question_urlori": "https://example.com/question1",
+    "question_answer": "pic/answers/test1.jpeg",
+    "question_analyse": "这是一道听牌判断题。当前手牌为：一万、二万、三万、四万、五万、六万、七万、八万、九万、东、东、东、白。听牌为：六万、九万。解析：手牌已组成三个顺子（一二三、四五六、七八九万），三个东刻子，单张白板。听牌为六万（与四五六组成顺子）或九万（与七八九组成顺子）。"
+  },
+  {
+    "question_pic": "https://via.placeholder.com/800x400/9b59b6/ffffff?text=和牌选择题目2",
+    "question_type": "和牌选择",
+    "question_urlori": "https://example.com/question2",
+    "question_answer": "https://via.placeholder.com/800x150/e74c3c/ffffff?text=和牌选择答案2",
+    "question_analyse": "和牌选择题。当前手牌为：一筒、二筒、三筒、四筒、五筒、六筒、七筒、八筒、九筒、发、发、发、中。可和牌：一筒、四筒、七筒。解析：手牌已组成三个顺子（一二三、四五六、七八九筒），三个发财刻子，单张红中。根据麻将规则，单张牌只能和相同的牌，因此只能和红中。"
+  },
+  {
+    "question_pic": "https://via.placeholder.com/800x400/e74c3c/ffffff?text=防守策略题目3",
+    "question_type": "防守策略",
+    "question_urlori": "https://example.com/question3",
+    "question_answer": "https://via.placeholder.com/800x150/3498db/ffffff?text=防守策略答案3",
+    "question_analyse": "防守策略题。对手已鸣牌：碰了东风、南风，吃了一口一二三万。安全牌：字牌（白板、发财）、一九万。危险牌：四五六七八万。解析：根据对手鸣牌情况，对手很可能在做万子清一色或混一色，应优先打出手牌中的字牌和一九万等边张牌。"
+  },
+  {
+    "question_pic": "https://via.placeholder.com/800x400/3498db/ffffff?text=听牌判断题目4",
+    "question_type": "听牌判断",
+    "question_urlori": "https://example.com/question4",
+    "question_answer": "https://via.placeholder.com/800x150/2ecc71/ffffff?text=听牌判断答案4",
+    "question_analyse": "复杂听牌判断题。手牌为：二万、三万、四万、五万、六万、七万、八万、九万、一筒、一筒、一筒、西、西。听牌：一万、四万、七万。解析：手牌结构为万子连顺，加上一筒刻子和西风对子。根据麻将听牌规则，可听一万（组成一二三万）、四万（组成二三四万）、七万（组成七八九万）。"
+  },
+  {
+    "question_pic": "https://via.placeholder.com/800x400/9b59b6/ffffff?text=和牌选择题目5",
+    "question_type": "和牌选择",
+    "question_urlori": "https://example.com/question5",
+    "question_answer": "https://via.placeholder.com/800x150/e74c3c/ffffff?text=和牌选择答案5",
+    "question_analyse": "高点和牌选择题。手牌为：一索、二索、三索、四索、五索、六索、七索、八索、九索、东、东、东、南。可和牌：南风（役满机会）。解析：当前手牌已组成清一色索子，加上东风刻子，如果和南风可达成清一色+混一色+役牌的三倍满，点数最高。"
+  },
+  {
+    "question_pic": "https://via.placeholder.com/800x400/e74c3c/ffffff?text=防守策略题目6",
+    "question_type": "防守策略",
+    "question_urlori": "https://example.com/question6",
+    "question_answer": "https://via.placeholder.com/800x150/3498db/ffffff?text=防守策略答案6",
+    "question_analyse": "终局防守题。牌局已进入终局，对手已立直，自家手牌较差。安全牌：现物（已打出的牌）、字牌。危险牌：生牌、中张牌。解析：终局防守应以完全安全为第一原则，优先打出对手已打过的现物，避免打生牌和中张牌，即使拆掉手牌也要确保安全。"
+  },
+  {
+    "question_pic": "https://via.placeholder.com/800x400/3498db/ffffff?text=听牌判断题目7",
+    "question_type": "听牌判断",
+    "question_urlori": "https://example.com/question7",
+    "question_answer": "https://via.placeholder.com/800x150/2ecc71/ffffff?text=听牌判断答案7",
+    "question_analyse": "特殊听牌题。手牌为：一万、一万、二万、三万、四万、五万、六万、七万、八万、九万、九万、发、发。听牌：二万、五万、八万。解析：手牌结构为万子多面听，加上发财对子。根据麻将规则，可听二万（组成一二三或二三四）、五万（组成三四五或四五六或五六七）、八万（组成六七八或七八九）。"
+  },
+  {
+    "question_pic": "https://via.placeholder.com/800x400/9b59b6/ffffff?text=和牌选择题目8",
+    "question_type": "和牌选择",
+    "question_urlori": "https://example.com/question8",
+    "question_answer": "https://via.placeholder.com/800x150/e74c3c/ffffff?text=和牌选择答案8",
+    "question_analyse": "快速和牌选择题。手牌已听牌，可自摸或荣和。选择：荣和（更快结束牌局）。解析：虽然自摸点数更高，但当前牌局对手可能已听牌，为降低风险应选择荣和快速结束牌局，确保胜利。"
+  }
+]
