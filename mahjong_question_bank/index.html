@@ -2,127 +2,1120 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>麻将策略题库管理系统</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0">
+    <title>麻将题库</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e8e8e8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 标题 */
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 100%);
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255,215,0,0.3);
+            letter-spacing: 8px;
+        }
+
+        .header p {
+            margin-top: 10px;
+            color: #888;
+            font-size: 0.95rem;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar-top {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-label {
+            color: #ffd700;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .filter-select {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: #fff;
+            font-size: 0.95rem;
+            cursor: pointer;
+            min-width: 140px;
+            transition: all 0.3s;
+        }
+
+        .filter-select:hover {
+            border-color: #ffd700;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255,215,0,0.3);
+        }
+
+        .filter-select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+
+        /* 导航控制区 */
+        .nav-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 24px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102,126,234,0.4);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .nav-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .jump-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .jump-label {
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+
+        .current-id {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* 题目介绍区 */
+        .question-section {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .question-intro {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-intro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+        }
+
+        .intro-label {
+            color: #ffd700;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .intro-text {
+            color: #ccc;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 20px 30px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            height: fit-content;
+            align-self: center;
+            box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+        }
+
+        .toggle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(255,107,107,0.4);
+        }
+
+        .toggle-btn.show-answer {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            box-shadow: 0 4px 15px rgba(17,153,142,0.3);
+        }
+
+        .toggle-btn.show-answer:hover {
+            box-shadow: 0 6px 25px rgba(17,153,142,0.4);
+        }
+
+        /* 题目图片区 */
+        .image-section {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .image-label {
+            color: #ffd700;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .question-image {
+            max-width: 100%;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            object-fit: contain;
+            max-height: 350px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        .question-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        /* 图片导航 */
+        .image-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .image-nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-nav-btn:hover:not(:disabled) {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+
+        .image-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .image-nav-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff;
+        }
+
+        .image-counter {
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+
+        /* 图片放大模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-image {
+            max-width: 95vw;
+            max-height: 95vh;
+            object-fit: contain;
+            border-radius: 8px;
+            cursor: default;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #ffd700;
+            transform: scale(1.1);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-nav:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .modal-nav svg {
+            width: 30px;
+            height: 30px;
+            fill: #fff;
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
+        }
+
+        /* 加载状态 */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #888;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            color: #888;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* 统计信息 */
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .stat-item span {
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+                letter-spacing: 4px;
+            }
+
+            .navbar {
+                padding: 15px;
+            }
+
+            .navbar-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .nav-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .jump-section {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .question-section {
+                grid-template-columns: 1fr;
+            }
+
+            .toggle-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .question-image {
+                max-height: 250px;
+            }
+
+            .modal-nav {
+                width: 45px;
+                height: 45px;
+            }
+
+            .modal-prev {
+                left: 10px;
+            }
+
+            .modal-next {
+                right: 10px;
+            }
+
+            .stats {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .nav-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .question-intro {
+                padding: 20px;
+            }
+
+            .image-section {
+                padding: 15px;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
+        <!-- 标题 -->
         <header class="header">
-            <h1><i class="fas fa-tiles"></i> 麻将策略题库管理系统</h1>
-            <p class="subtitle">提升麻将技巧，挑战各类难题</p>
+            <h1>🀄 麻将题库</h1>
+            <p>学习麻将技巧，提高实战水平</p>
         </header>
 
-        <main class="main-content">
-            <div class="control-panel">
-                <div class="control-header">
-                    <div class="control-title">
-                        <i class="fas fa-sliders-h"></i> 题目控制
-                    </div>
-                    <div class="type-info">
-                        <span class="current-type">当前类型：全部题目</span>
-                        <span class="question-count">题目：<span id="current-index">1</span>/<span id="total-questions">0</span></span>
-                    </div>
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="navbar-top">
+                <div class="filter-group">
+                    <span class="filter-label">题目类型</span>
+                    <select id="typeFilter" class="filter-select">
+                        <option value="">全部类型</option>
+                    </select>
                 </div>
-                
-                <div class="control-buttons">
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-type="all" title="全部题目">
-                            <i class="fas fa-layer-group"></i> 全部
-                        </button>
-                        <button class="filter-btn" data-type="听牌判断" title="听牌判断">
-                            <i class="fas fa-brain"></i> 听牌
-                        </button>
-                        <button class="filter-btn" data-type="和牌选择" title="和牌选择">
-                            <i class="fas fa-check-circle"></i> 和牌
-                        </button>
-                        <button class="filter-btn" data-type="防守策略" title="防守策略">
-                            <i class="fas fa-shield-alt"></i> 防守
-                        </button>
-                        <button class="filter-btn random-btn" title="随机抽题">
-                            <i class="fas fa-random"></i> 随机
-                        </button>
-                    </div>
-                    
-                    <div class="nav-buttons">
-                        <button class="nav-btn prev-btn" id="prev-btn" title="上一题">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="nav-btn next-btn" id="next-btn" title="下一题">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
+                <div class="filter-group">
+                    <span class="filter-label">题目时间</span>
+                    <select id="timeFilter" class="filter-select">
+                        <option value="">全部时间</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">快捷跳转</span>
+                    <select id="questionSelect" class="filter-select">
+                        <option value="">选择题目</option>
+                    </select>
                 </div>
             </div>
-
-            <div class="question-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-question-circle"></i> 题目展示</h2>
-                    <a href="#" class="original-link" id="original-link" target="_blank">
-                        <i class="fas fa-external-link-alt"></i> 查看原始链接
-                    </a>
-                </div>
-                
-                <div class="question-display">
-                    <div class="question-image-container">
-                        <div class="image-placeholder" id="question-image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <p>题目图片加载中...</p>
-                        </div>
-                        <img src="" alt="题目图片" class="question-image" id="question-image">
-                    </div>
-                    
-                    <div class="question-meta">
-                        <div class="meta-item">
-                            <i class="fas fa-tag"></i>
-                            <strong>题目类型：</strong>
-                            <span id="question-type">听牌判断</span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="fas fa-link"></i>
-                            <strong>原始链接：</strong>
-                            <a href="#" id="question-url" target="_blank">点击查看</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="answer-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-lightbulb"></i> 答案与解析</h2>
-                    <button class="toggle-answer-btn" id="toggle-answer">
-                        <i class="fas fa-eye"></i> 显示答案
+            <div class="nav-controls">
+                <div class="nav-buttons">
+                    <button id="prevBtn" class="nav-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                        </svg>
+                        上一题
+                    </button>
+                    <button id="nextBtn" class="nav-btn">
+                        下一题
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+                        </svg>
                     </button>
                 </div>
-                
-                <div class="answer-content hidden" id="answer-content">
-                    <div class="answer-image-container">
-                        <div class="image-placeholder" id="answer-image-placeholder">
-                            <i class="fas fa-image"></i>
-                            <p>答案图片加载中...</p>
-                        </div>
-                        <img src="" alt="答案图片" class="answer-image" id="answer-image">
-                    </div>
-                    
-                    <div class="analysis-container">
-                        <h3><i class="fas fa-analytics"></i> 题目解析</h3>
-                        <div class="analysis-content" id="question-analyse">
-                            点击"显示答案"按钮查看题目解析...
-                        </div>
-                    </div>
+                <div class="jump-section">
+                    <span class="jump-label">当前题号</span>
+                    <div class="current-id" id="currentId">1</div>
                 </div>
             </div>
+            <div class="stats">
+                <div class="stat-item">总计: <span id="totalCount">0</span> 题</div>
+                <div class="stat-item">当前: <span id="currentIndex">0</span> / <span id="filteredCount">0</span></div>
+            </div>
+        </nav>
+
+        <!-- 加载状态 -->
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <p>正在加载题目...</p>
+        </div>
+
+        <!-- 题目内容 -->
+        <main id="questionContent" style="display: none;">
+            <!-- 题目介绍区 -->
+            <section class="question-section">
+                <div class="question-intro">
+                    <div class="intro-label" id="introLabel">题目类型</div>
+                    <p class="intro-text" id="introText"></p>
+                </div>
+                <button id="toggleBtn" class="toggle-btn">
+                    显示答案
+                </button>
+            </section>
+
+            <!-- 题目图片区 -->
+            <section class="image-section">
+                <div class="image-label" id="imageLabel">题目图片</div>
+                <div class="image-container" id="imageContainer"></div>
+                <div class="image-nav" id="imageNav" style="display: none;">
+                    <button class="image-nav-btn" id="imgPrevBtn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                        </svg>
+                    </button>
+                    <span class="image-counter" id="imageCounter">1 / 1</span>
+                    <button class="image-nav-btn" id="imgNextBtn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+                        </svg>
+                    </button>
+                </div>
+            </section>
         </main>
 
-        <footer class="footer">
-            <p>麻将策略题库管理系统 &copy; 2025 | 设计用于麻将技巧训练与学习</p>
-            <p class="footer-tips">
-                <i class="fas fa-lightbulb"></i> 提示：先独立思考，再查看答案，效果更佳！
-            </p>
-        </footer>
+        <!-- 空状态 -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <p>没有找到符合条件的题目</p>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- 图片放大模态框 -->
+    <div id="imageModal" class="modal">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <button class="modal-nav modal-prev" id="modalPrev">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+        <img id="modalImage" class="modal-image" src="" alt="大图">
+        <button class="modal-nav modal-next" id="modalNext">
+            <svg viewBox="0 0 24 24">
+                <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // 数据和状态
+        let allQuestions = [];
+        let filteredQuestions = [];
+        let currentQuestionIndex = 0;
+        let isShowingAnswer = false;
+        let currentImageIndex = 0;
+        let currentImages = [];
+        let modalImageIndex = 0;
+        let imagePreloads = {};
+
+        // DOM元素
+        const elements = {
+            typeFilter: document.getElementById('typeFilter'),
+            timeFilter: document.getElementById('timeFilter'),
+            questionSelect: document.getElementById('questionSelect'),
+            prevBtn: document.getElementById('prevBtn'),
+            nextBtn: document.getElementById('nextBtn'),
+            currentId: document.getElementById('currentId'),
+            totalCount: document.getElementById('totalCount'),
+            currentIndex: document.getElementById('currentIndex'),
+            filteredCount: document.getElementById('filteredCount'),
+            loading: document.getElementById('loading'),
+            questionContent: document.getElementById('questionContent'),
+            emptyState: document.getElementById('emptyState'),
+            introLabel: document.getElementById('introLabel'),
+            introText: document.getElementById('introText'),
+            toggleBtn: document.getElementById('toggleBtn'),
+            imageLabel: document.getElementById('imageLabel'),
+            imageContainer: document.getElementById('imageContainer'),
+            imageNav: document.getElementById('imageNav'),
+            imageCounter: document.getElementById('imageCounter'),
+            imgPrevBtn: document.getElementById('imgPrevBtn'),
+            imgNextBtn: document.getElementById('imgNextBtn'),
+            imageModal: document.getElementById('imageModal'),
+            modalImage: document.getElementById('modalImage'),
+            modalClose: document.getElementById('modalClose'),
+            modalPrev: document.getElementById('modalPrev'),
+            modalNext: document.getElementById('modalNext')
+        };
+
+        // 初始化
+        async function init() {
+            try {
+                await loadQuestions();
+                setupTypeFilter();
+                setupTimeFilter();
+                setupEventListeners();
+                updateStats();
+                elements.loading.style.display = 'none';
+                
+                if (filteredQuestions.length > 0) {
+                    showQuestion(0);
+                } else {
+                    showEmptyState();
+                }
+            } catch (error) {
+                console.error('初始化失败:', error);
+                elements.loading.innerHTML = '<p style="color: #ff6b6b;">加载失败，请刷新重试</p>';
+            }
+        }
+
+        // 加载题目数据
+        async function loadQuestions() {
+            const response = await fetch('questions.json');
+            if (!response.ok) {
+                throw new Error('无法加载题目数据');
+            }
+            allQuestions = await response.json();
+            
+            // 为每个题目添加ID（如果数据中没有）
+            allQuestions = allQuestions.map((q, index) => ({
+                ...q,
+                question_id: q.question_id || (index + 1)
+            }));
+            
+            // 预加载所有图片
+            preloadAllImages();
+        }
+
+        // 图片预加载
+        function preloadAllImages() {
+            allQuestions.forEach((q, index) => {
+                // 预加载题目图片
+                if (q.question_pic) {
+                    const questionImg = new Image();
+                    questionImg.src = q.question_pic;
+                    imagePreloads[`q_${index}_question`] = questionImg;
+                }
+                
+                // 预加载答案图片
+                if (q.question_answer) {
+                    const answerImg = new Image();
+                    answerImg.src = q.question_answer;
+                    imagePreloads[`q_${index}_answer`] = answerImg;
+                }
+            });
+        }
+
+        // 设置类型筛选
+        function setupTypeFilter() {
+            const types = [...new Set(allQuestions.map(q => q.question_type))].filter(Boolean);
+            
+            types.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type;
+                elements.typeFilter.appendChild(option);
+            });
+        }
+
+        // 设置时间筛选
+        function setupTimeFilter() {
+            const times = [...new Set(allQuestions.map(q => q.question_time))].filter(Boolean);
+            
+            times.forEach(time => {
+                const option = document.createElement('option');
+                option.value = time;
+                option.textContent = time;
+                elements.timeFilter.appendChild(option);
+            });
+        }
+
+        // 更新题目快捷选择下拉框
+        function updateQuestionSelect() {
+            const currentValue = elements.questionSelect.value;
+            elements.questionSelect.innerHTML = '<option value="">选择题目</option>';
+            
+            filteredQuestions.forEach((q, index) => {
+                const option = document.createElement('option');
+                const timeInfo = q.question_time ? `[${q.question_time}] ` : '';
+                option.value = index;
+                option.textContent = `${timeInfo}第${q.question_id}题 - ${q.question_type || '未分类'}`;
+                elements.questionSelect.appendChild(option);
+            });
+            
+            elements.questionSelect.value = currentValue;
+        }
+
+        // 设置事件监听
+        function setupEventListeners() {
+            // 类型筛选
+            elements.typeFilter.addEventListener('change', () => {
+                filterQuestions();
+            });
+
+            // 时间筛选
+            elements.timeFilter.addEventListener('change', () => {
+                filterQuestions();
+            });
+
+            // 题目快捷选择
+            elements.questionSelect.addEventListener('change', (e) => {
+                if (e.target.value !== '') {
+                    currentQuestionIndex = parseInt(e.target.value);
+                    showQuestion(currentQuestionIndex);
+                }
+            });
+
+            // 上一题
+            elements.prevBtn.addEventListener('click', () => {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    showQuestion(currentQuestionIndex);
+                }
+            });
+
+            // 下一题
+            elements.nextBtn.addEventListener('click', () => {
+                if (currentQuestionIndex < filteredQuestions.length - 1) {
+                    currentQuestionIndex++;
+                    showQuestion(currentQuestionIndex);
+                }
+            });
+
+            // 显示答案/显示题目
+            elements.toggleBtn.addEventListener('click', toggleAnswer);
+
+            // 图片导航
+            elements.imgPrevBtn.addEventListener('click', () => navigateImage(-1));
+            elements.imgNextBtn.addEventListener('click', () => navigateImage(1));
+
+            // 模态框
+            elements.modalClose.addEventListener('click', closeModal);
+            elements.imageModal.addEventListener('click', (e) => {
+                if (e.target === elements.imageModal) {
+                    closeModal();
+                }
+            });
+            elements.modalPrev.addEventListener('click', () => navigateModalImage(-1));
+            elements.modalNext.addEventListener('click', () => navigateModalImage(1));
+
+            // 键盘事件
+            document.addEventListener('keydown', handleKeyboard);
+        }
+
+        // 键盘快捷键
+        function handleKeyboard(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    navigateImage(-1);
+                    break;
+                case 'ArrowRight':
+                    navigateImage(1);
+                    break;
+                case 'Escape':
+                    closeModal();
+                    break;
+            }
+        }
+
+        // 筛选题目
+        function filterQuestions() {
+            const selectedType = elements.typeFilter.value;
+            const selectedTime = elements.timeFilter.value;
+            
+            filteredQuestions = allQuestions.filter(q => {
+                const typeMatch = !selectedType || q.question_type === selectedType;
+                const timeMatch = !selectedTime || q.question_time === selectedTime;
+                return typeMatch && timeMatch;
+            });
+            
+            updateQuestionSelect();
+            updateStats();
+            
+            if (filteredQuestions.length > 0) {
+                currentQuestionIndex = 0;
+                showQuestion(0);
+            } else {
+                showEmptyState();
+            }
+        }
+
+        // 显示题目
+        function showQuestion(index) {
+            if (index < 0 || index >= filteredQuestions.length) return;
+            
+            currentQuestionIndex = index;
+            const question = filteredQuestions[index];
+            
+            // 重置为显示题目状态
+            isShowingAnswer = false;
+            elements.toggleBtn.textContent = '显示答案';
+            elements.toggleBtn.classList.remove('show-answer');
+            
+            // 更新UI
+            elements.currentId.textContent = question.question_id;
+            elements.questionSelect.value = index;
+            
+            // 更新按钮状态
+            elements.prevBtn.disabled = index === 0;
+            elements.nextBtn.disabled = index === filteredQuestions.length - 1;
+            
+            // 显示题目介绍
+            updateQuestionIntro(question, false);
+            
+            // 显示题目图片
+            updateQuestionImages(question, false);
+            
+            // 添加动画效果
+            elements.questionContent.classList.remove('fade-in');
+            void elements.questionContent.offsetWidth;
+            elements.questionContent.classList.add('fade-in');
+            
+            elements.questionContent.style.display = 'block';
+            elements.emptyState.style.display = 'none';
+        }
+
+        // 更新题目介绍
+        function updateQuestionIntro(question, isAnswer) {
+            if (isAnswer) {
+                elements.introLabel.textContent = '📖 题目解析';
+                elements.introText.textContent = question.question_analyse || '暂无解析';
+            } else {
+                elements.introLabel.textContent = question.question_type 
+                    ? `📚 ${question.question_type}`
+                    : '📚 题目介绍';
+                elements.introText.textContent = question.question_introduce || question.question_analyse?.slice(0, 100) + '...' || '暂无介绍';
+            }
+        }
+
+        // 更新题目图片
+        function updateQuestionImages(question, isAnswer) {
+            elements.imageContainer.innerHTML = '';
+            
+            if (isAnswer) {
+                elements.imageLabel.textContent = '🎯 答案图片';
+                currentImages = Array.isArray(question.question_answer) 
+                    ? question.question_answer 
+                    : [question.question_answer];
+            } else {
+                elements.imageLabel.textContent = '📋 题目图片';
+                currentImages = Array.isArray(question.question_pic) 
+                    ? question.question_pic 
+                    : [question.question_pic];
+            }
+            
+            currentImages = currentImages.filter(Boolean);
+            
+            if (currentImages.length === 0) {
+                elements.imageNav.style.display = 'none';
+                return;
+            }
+            
+            currentImageIndex = 0;
+            displayCurrentImage();
+        }
+
+        // 显示当前图片
+        function displayCurrentImage() {
+            elements.imageContainer.innerHTML = '';
+            
+            const img = document.createElement('img');
+            img.className = 'question-image';
+            img.src = currentImages[currentImageIndex];
+            img.alt = `图片 ${currentImageIndex + 1}`;
+            img.loading = 'lazy';
+            
+            img.onclick = () => openModal(currentImageIndex);
+            
+            img.onerror = () => {
+                img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="150" viewBox="0 0 200 150"%3E%3Crect fill="%23333" width="200" height="150"/%3E%3Ctext fill="%23666" font-family="sans-serif" font-size="14" x="50" y="80"%3E图片加载失败%3C/text%3E%3C/svg%3E';
+            };
+            
+            elements.imageContainer.appendChild(img);
+            elements.imageCounter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
+            
+            // 更新导航按钮状态
+            elements.imgPrevBtn.disabled = currentImageIndex === 0;
+            elements.imgNextBtn.disabled = currentImageIndex === currentImages.length - 1;
+            
+            // 始终显示导航栏，保持切换一致性
+            elements.imageNav.style.display = 'flex';
+        }
+
+        // 导航图片
+        function navigateImage(direction) {
+            const newIndex = currentImageIndex + direction;
+            if (newIndex >= 0 && newIndex < currentImages.length) {
+                currentImageIndex = newIndex;
+                displayCurrentImage();
+            }
+        }
+
+        // 切换答案/题目
+        function toggleAnswer() {
+            isShowingAnswer = !isShowingAnswer;
+            const question = filteredQuestions[currentQuestionIndex];
+            
+            if (isShowingAnswer) {
+                elements.toggleBtn.textContent = '显示题目';
+                elements.toggleBtn.classList.add('show-answer');
+                updateQuestionIntro(question, true);
+                updateQuestionImages(question, true);
+            } else {
+                elements.toggleBtn.textContent = '显示答案';
+                elements.toggleBtn.classList.remove('show-answer');
+                updateQuestionIntro(question, false);
+                updateQuestionImages(question, false);
+            }
+        }
+
+        // 打开模态框
+        function openModal(imageIndex) {
+            modalImageIndex = imageIndex;
+            elements.modalImage.src = currentImages[imageIndex];
+            elements.imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            updateModalNav();
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            elements.imageModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // 导航模态框图片
+        function navigateModalImage(direction) {
+            const newIndex = modalImageIndex + direction;
+            if (newIndex >= 0 && newIndex < currentImages.length) {
+                modalImageIndex = newIndex;
+                elements.modalImage.src = currentImages[newIndex];
+                updateModalNav();
+            }
+        }
+
+        // 更新模态框导航按钮
+        function updateModalNav() {
+            elements.modalPrev.style.display = modalImageIndex > 0 ? 'flex' : 'none';
+            elements.modalNext.style.display = modalImageIndex < currentImages.length - 1 ? 'flex' : 'none';
+        }
+
+        // 更新统计
+        function updateStats() {
+            elements.totalCount.textContent = allQuestions.length;
+            elements.filteredCount.textContent = filteredQuestions.length;
+            elements.currentIndex.textContent = filteredQuestions.length > 0 ? currentQuestionIndex + 1 : 0;
+        }
+
+        // 显示空状态
+        function showEmptyState() {
+            elements.questionContent.style.display = 'none';
+            elements.emptyState.style.display = 'block';
+        }
+
+        // 启动应用
+        init();
+    </script>
 </body>
 </html>
